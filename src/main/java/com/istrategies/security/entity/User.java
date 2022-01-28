@@ -26,7 +26,7 @@ public class User implements Serializable {
     @Column(name = "created_at", nullable = false)
     private final Date createdAt = new Date();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "id_user"),
     inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles = new HashSet<>();
