@@ -12,5 +12,6 @@ public interface IMovieService {
     ResponseEntity<?> getByIdMovie(Integer id);
     ResponseEntity<?> saveMovie(Movie movie, Integer id);
     ResponseEntity<?> deleteMovie(Integer id);
+    void updateStock(Integer id, int stock);
 
 }

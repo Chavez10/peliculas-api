@@ -133,4 +133,11 @@ public class MovieImpl implements IMovieService {
         response.put("message", "Record deleted.");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @Override
+    public void updateStock(Integer id, int stock) {
+        Movie movie = this.getMovie(id).get();
+        movie.setStock(stock);
+        movieRepository.save(movie);
+    }
 }

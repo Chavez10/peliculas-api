@@ -43,6 +43,13 @@ public class Movie implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
     private List<MovieLog> logs;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
+    private List<MovieSold> movie;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movie")
+    private List<RentedMovie> rentedMovies;
+
+
     public Movie() {
     }
 

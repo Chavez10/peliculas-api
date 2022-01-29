@@ -1,9 +1,13 @@
 package com.istrategies.security.entity;
 
+import com.istrategies.entity.MovieSold;
+import com.istrategies.entity.RentedMovie;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,6 +34,12 @@ public class User implements Serializable {
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "id_user"),
     inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<MovieSold> movie;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<RentedMovie> rentedMovies;
 
     public User() {
     }
@@ -91,5 +101,21 @@ public class User implements Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<MovieSold> getMovie() {
+        return movie;
+    }
+
+    public void setMovie(List<MovieSold> movie) {
+        this.movie = movie;
+    }
+
+    public List<RentedMovie> getRentedMovies() {
+        return rentedMovies;
+    }
+
+    public void setRentedMovies(List<RentedMovie> rentedMovies) {
+        this.rentedMovies = rentedMovies;
     }
 }
