@@ -60,7 +60,7 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/auth/**")
+                .antMatchers("/auth/**", "/movies/home/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

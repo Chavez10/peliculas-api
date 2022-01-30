@@ -33,6 +33,8 @@ public class Movie implements Serializable {
     private final Date createdAt = new Date();
     @Column(nullable = false)
     private boolean status;
+    @Column(nullable = true)
+    private int likes;
 
     /** Relationship */
     @JoinTable(name = "movie_details", joinColumns = @JoinColumn(name = "movie_id", nullable = false),
@@ -161,5 +163,13 @@ public class Movie implements Serializable {
 
     public void setLogs(List<MovieLog> logs) {
         this.logs = logs;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 }

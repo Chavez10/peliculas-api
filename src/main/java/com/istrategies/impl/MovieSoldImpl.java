@@ -1,6 +1,9 @@
 package com.istrategies.impl;
 
+import com.fasterxml.jackson.core.JsonToken;
+import com.istrategies.dto.MovieDto;
 import com.istrategies.dto.MovieSoldDto;
+import com.istrategies.entity.Movie;
 import com.istrategies.entity.MovieSold;
 import com.istrategies.repository.IMovieRepository;
 import com.istrategies.repository.IMovieSoldRepository;
@@ -127,6 +130,12 @@ public class MovieSoldImpl implements IMovieSoldService {
 
     @Override
     public void prueba(Integer id) {
-        System.out.println("el stock es: "+movieRepository.findByStock(id));
+        List<Movie> movieDtos =
+                movieRepository.findByAvailability(false);
+        for (Movie m :
+                movieDtos) {
+            System.out.println(m.getTitle());
+            System.out.println(m.isAvailability());
+        }
     }
 }

@@ -32,7 +32,7 @@ public class MovieImpl implements IMovieService {
     public ResponseEntity<?> findAll() {
         Map<String, Object> response = new HashMap<>();
         List<MovieDto> movies =
-                movieRepository.findAll()
+                movieRepository.findAllTitle()
                         .stream()
                         .map(movie -> {
                             MovieDto dto = new MovieDto();
@@ -46,6 +46,37 @@ public class MovieImpl implements IMovieService {
                             dto.setAvailability(movie.isAvailability());
                             dto.setCreatedAt(movie.getCreatedAt());
                             dto.setStatus(movie.isStatus());
+                            dto.setLikes(movie.getLikes());
+                            dto.setTypeMovies(movie.getTypeMovies());
+                            return dto;
+                        }).collect(Collectors.toList());
+        if (movies.size() > 0){
+            response.put("movies", movies);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        response.put("message", "No records yet.");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> findByLikes() {
+        Map<String, Object> response = new HashMap<>();
+        List<MovieDto> movies =
+                movieRepository.findAllLikes()
+                        .stream()
+                        .map(movie -> {
+                            MovieDto dto = new MovieDto();
+                            dto.setId(movie.getId());
+                            dto.setTitle(movie.getTitle());
+                            dto.setDescription(movie.getDescription());
+                            dto.setImage(movie.getImage());
+                            dto.setRentPrice(movie.getRentPrice());
+                            dto.setSalesPrice(movie.getSalesPrice());
+                            dto.setStock(movie.getStock());
+                            dto.setAvailability(movie.isAvailability());
+                            dto.setCreatedAt(movie.getCreatedAt());
+                            dto.setStatus(movie.isStatus());
+                            dto.setLikes(movie.getLikes());
                             dto.setTypeMovies(movie.getTypeMovies());
                             return dto;
                         }).collect(Collectors.toList());
@@ -82,6 +113,7 @@ public class MovieImpl implements IMovieService {
         dto.setAvailability(movie.isAvailability());
         dto.setCreatedAt(movie.getCreatedAt());
         dto.setStatus(movie.isStatus());
+        dto.setLikes(movie.getLikes());
         dto.setTypeMovies(movie.getTypeMovies());
 
         response.put("movie", dto);
@@ -139,5 +171,15 @@ public class MovieImpl implements IMovieService {
         Movie movie = this.getMovie(id).get();
         movie.setStock(stock);
         movieRepository.save(movie);
+    }
+
+    @Override
+    public ResponseEntity<?> giveLike(Integer id) {
+        Movie movie = this.getMovie(id).get();
+        Integer likeNow = movieRepository.findByLikes(id)+1;
+
+        movie.setLikes(likeNow);
+        movieRepository.save(movie);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

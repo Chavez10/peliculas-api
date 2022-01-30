@@ -19,9 +19,11 @@ public class MovieController {
     private IMovieService movieService;
 
 
-    @GetMapping("/")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    public ResponseEntity<?> index(){
+    @GetMapping("/home/{filter}")
+    public ResponseEntity<?> index(@PathVariable String filter){
+        if (filter.equals("likes")){
+            return movieService.findByLikes();
+        }
         return movieService.findAll();
     }
 
@@ -55,6 +57,12 @@ public class MovieController {
         movie.setTypeMovies(dto.getTypeMovies());
 
         return movieService.saveMovie(movie, id);
+    }
+
+    @PutMapping("/likes/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> giveLikes(@PathVariable Integer id){
+        return movieService.giveLike(id);
     }
 
     @PutMapping("/delete/{id}")

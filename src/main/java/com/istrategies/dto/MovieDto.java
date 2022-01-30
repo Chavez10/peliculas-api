@@ -17,6 +17,7 @@ public class MovieDto {
     private boolean availability;
     private Date createdAt;
     private boolean status;
+    private int likes;
     private List<TypeMovie> typeMovies;
 
     public MovieDto() {
@@ -119,5 +120,13 @@ public class MovieDto {
 
     public void setTypeMovies(List<TypeMovie> typeMovies) {
         this.typeMovies = typeMovies;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 }
