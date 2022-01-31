@@ -175,11 +175,14 @@ public class MovieImpl implements IMovieService {
 
     @Override
     public ResponseEntity<?> giveLike(Integer id) {
+        Map<String, Object> response = new HashMap<>();
         Movie movie = this.getMovie(id).get();
         Integer likeNow = movieRepository.findByLikes(id)+1;
 
         movie.setLikes(likeNow);
         movieRepository.save(movie);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        likeNow = movieRepository.findByLikes(id);
+        response.put("like", likeNow);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
