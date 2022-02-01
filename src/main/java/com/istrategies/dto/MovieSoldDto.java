@@ -20,7 +20,6 @@ public class MovieSoldDto {
     @NotNull
     @NotEmpty
     private String movie;
-    @NotNull
     private Date datePurchase;
     @NotNull
     private Boolean status;

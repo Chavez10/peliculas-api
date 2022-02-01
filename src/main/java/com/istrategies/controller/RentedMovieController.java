@@ -32,6 +32,12 @@ public class RentedMovieController {
         return movieService.getByIdMovie(id);
     }
 
+    @GetMapping("/rent-user/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> findAllByUser(@PathVariable Integer id){
+        return movieService.findAllByUser(id);
+    }
+
     @PostMapping("/save")
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<?> save(@Valid @RequestBody RentedMovieDto dto){

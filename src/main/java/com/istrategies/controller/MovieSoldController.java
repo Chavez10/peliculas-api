@@ -27,6 +27,12 @@ public class MovieSoldController {
         return movieSoldService.findAllMovieSold();
     }
 
+    @GetMapping("/sold-movie/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> soldMovie(@PathVariable Integer id){
+        return movieSoldService.findAllByUser(id);
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getMovieSold(@PathVariable Integer id){

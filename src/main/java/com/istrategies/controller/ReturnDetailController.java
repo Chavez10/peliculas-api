@@ -49,4 +49,10 @@ public class ReturnDetailController {
         ReturnDetail returnDetail = new ReturnDetail(rentedMovie);
         return returnDetailService.saveRentMovie(returnDetail);
     }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> delete(@PathVariable Integer id){
+        return returnDetailService.deleteRentMovie(id);
+    }
 }

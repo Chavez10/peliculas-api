@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface IMovieSoldService {
 
     ResponseEntity<?> findAllMovieSold();
+    ResponseEntity<?> findAllByUser(Integer id);
     Optional<MovieSold> getMovieSold(Integer id);
     ResponseEntity<?> getMovieSoldById(Integer id);
     ResponseEntity<?> saveMovieSold(MovieSold movieSold, Integer id);

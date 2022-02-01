@@ -14,10 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,6 +59,32 @@ public class RentedMovieImp implements IRentedMovieService {
     }
 
     @Override
+    public ResponseEntity<?> findAllByUser(Integer id) {
+        Map<String, Object> response = new HashMap<>();
+        List<RentedMovieDto> rentedMovie =
+                rentedMovieRepository.findAll(id)
+                        .stream()
+                        .map(movie -> {
+                            RentedMovieDto dto = new RentedMovieDto();
+                            dto.setRentedId(movie.getId());
+                            dto.setUserId(movie.getUser().getId());
+                            dto.setMovieId(movie.getMovie().getId());
+                            dto.setMovie(movie.getMovie().getTitle());
+                            dto.setUser(movie.getUser().getUsername());
+                            dto.setRentDate(movie.getRentDate());
+                            dto.setReturnDate(movie.getReturnDate());
+                            dto.setStatus(movie.getStatus());
+                            return dto;
+                        }).collect(Collectors.toList());
+        if (rentedMovie.size() > 0){
+            response.put("rent_movie", rentedMovie);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        response.put("message", "No records yet.");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
     public Optional<RentedMovie> getMovie(Integer id) {
         Optional<RentedMovie> movie = rentedMovieRepository.findById(id);
         if (movie.isEmpty()){
@@ -89,9 +115,14 @@ public class RentedMovieImp implements IRentedMovieService {
     @Override
     public ResponseEntity<?> saveRentMovie(RentedMovie movie) {
         Map<String, Object> response = new HashMap<>();
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime rtDate = today.plusDays(5);
+        Date returnDate = Date.from(rtDate.toInstant(ZoneOffset.UTC));
         RentedMovie movieInst = null;
         int stock = movieRepository.findByStock(movie.getMovie().getId()) -1;
 
+        movie.setRentDate(new Date());
+        movie.setReturnDate(returnDate);
         movieInst = rentedMovieRepository.save(movie);
         movieService.updateStock(movie.getMovie().getId(), stock);
         response.put("movie", movieInst.getMovie().getTitle());

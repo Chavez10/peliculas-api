@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface IRentedMovieService {
 
     ResponseEntity<?> findAll();
+    ResponseEntity<?> findAllByUser(Integer id);
     Optional<RentedMovie> getMovie(Integer id);
     ResponseEntity<?> getByIdMovie(Integer id);
     ResponseEntity<?> saveRentMovie(RentedMovie movie);

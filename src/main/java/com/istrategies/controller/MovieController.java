@@ -92,7 +92,7 @@ public class MovieController {
         return movieService.giveLike(id);
     }
 
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@PathVariable Integer id){
         return movieService.deleteMovie(id);

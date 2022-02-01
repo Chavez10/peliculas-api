@@ -64,6 +64,30 @@ public class MovieSoldImpl implements IMovieSoldService {
     }
 
     @Override
+    public ResponseEntity<?> findAllByUser(Integer id) {
+        Map<String, Object> response = new HashMap<>();
+        List<MovieSoldDto> movieSold =
+                movieSoldRepository.findAll(id)
+                        .stream()
+                        .map(movie -> {
+                            MovieSoldDto dto = new MovieSoldDto();
+                            dto.setIdUser(movie.getUser().getId());
+                            dto.setIdMovie(movie.getMovie().getId());
+                            dto.setUser(movie.getUser().getUsername());
+                            dto.setMovie(movie.getMovie().getTitle());
+                            dto.setDatePurchase(movie.getDatePurchase());
+                            dto.setStatus(movie.getStatus());
+                            return dto;
+                        }).collect(Collectors.toList());
+        if (movieSold.size() > 0){
+            response.put("movie_sold", movieSold);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        response.put("message", "No records yet.");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
     public Optional<MovieSold> getMovieSold(Integer id) {
         Optional<MovieSold> movieSold = movieSoldRepository.findById(id);
         if (movieSold.isEmpty()){
@@ -130,12 +154,12 @@ public class MovieSoldImpl implements IMovieSoldService {
 
     @Override
     public void prueba(Integer id) {
-        List<Movie> movieDtos =
-                movieRepository.findByAvailability(false);
-        for (Movie m :
-                movieDtos) {
-            System.out.println(m.getTitle());
-            System.out.println(m.isAvailability());
+        List<MovieSold> dto =
+                movieSoldRepository.findAll(id);
+        for (MovieSold movieSold : dto){
+            System.out.println(movieSold.getMovie().getTitle());
+            System.out.println(movieSold.getUser().getUsername());
+            System.out.println(movieSold.getDatePurchase());
         }
     }
 }

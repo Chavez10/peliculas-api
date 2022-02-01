@@ -103,7 +103,7 @@ public class ReturnDetailImpl implements IReturnDetailService {
         movie.setPenalty(0.00);
         movie.setStatus(true);
 
-        if (!dateNow.equals(dateReturn)){
+        if (dateNow.after(dateReturn)){
             movie.setOnTime(false);
             movie.setPenalty(priceMovie+5.5);
         }

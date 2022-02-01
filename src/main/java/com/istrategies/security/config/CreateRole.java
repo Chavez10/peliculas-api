@@ -3,6 +3,7 @@ package com.istrategies.security.config;
 import com.istrategies.security.entity.Role;
 import com.istrategies.security.enums.NameRole;
 import com.istrategies.security.service.RoleService;
+import com.istrategies.security.service.UserService;
 import com.istrategies.service.IMovieService;
 import com.istrategies.service.IMovieSoldService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class CreateRole implements CommandLineRunner {
     RoleService roleService;
     @Autowired
     IMovieSoldService movieService;
+    @Autowired
+    UserService userService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -23,6 +26,7 @@ public class CreateRole implements CommandLineRunner {
         Role user = new Role(NameRole.ROLE_USER, true);
         roleService.saveRole(admin);
         roleService.saveRole(user);*/
-        //movieService.prueba(3);
+        //movieService.prueba(5);
+        //System.out.println(userService.getIdUser("admin"));
     }
 }
